@@ -1,0 +1,3 @@
+*.code-workspace
+paths_to_targets.txt
+.vscode
