@@ -44,23 +44,38 @@ def create_new_bucket_if_not_exist():
     
     added_string = get_random_string()
     bucket_name = f"bucket-for-backuper-{added_string}"
-    print(colored(f"Bucket for Backuper doesn't exist, creating new one with a name{bucket_name}", "yellow"))
+    print(colored(f"\nBucket for Backuper doesn't exist, creating new one with a name{bucket_name}", "yellow"))
 
-    s3.create_bucket(
-        Bucket = bucket_name, 
-        CreateBucketConfiguration={
-        'LocationConstraint':'eu-central-1'
-        },
-        ACL="bucket-owner-full-control"
-    )
-    s3.put_public_access_block(
-        Bucket=bucket_name,
-        PublicAccessBlockConfiguration={
-        'BlockPublicAcls': True,
-        'IgnorePublicAcls': True,
-        'BlockPublicPolicy': True,
-        'RestrictPublicBuckets': True
-        }
-    )
+    try:
+        s3.create_bucket(
+            Bucket = bucket_name, 
+            CreateBucketConfiguration={
+            'LocationConstraint':'eu-central-1'
+            },
+            ACL="bucket-owner-full-control"
+        )
+        s3.put_public_access_block(
+            Bucket=bucket_name,
+            PublicAccessBlockConfiguration={
+            'BlockPublicAcls': True,
+            'IgnorePublicAcls': True,
+            'BlockPublicPolicy': True,
+            'RestrictPublicBuckets': True
+            }
+        )
+
+        s3 = boto3.resource('s3')
+        bucket_versioning = s3.BucketVersioning(bucket_name)
+        bucket_versioning.put(
+            VersioningConfiguration={
+                'Status': 'Enabled'
+            }
+        )
+    except Exception as e:
+        print(colored("\nSomething went wrong, while creating the bucket, \
+            please check the credentials you have provided or your AWS permissions\n", "red"))
+        print(colored(e, "red"))
+    else:
+        print(colored("Bucket was successfully created", "green"))
 
 create_new_bucket_if_not_exist()
