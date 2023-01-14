@@ -1,10 +1,16 @@
-# Tool for making backup or making restore the system using the AWS S3 service
+# Tool for making file backups using the AWS S3 service
 
-## Dependencies
-You must have s3 configured backet on your AWS account and configured AWS CLI on your system to run backup script.
-Check this guides to make it:
-https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html
-https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+## Install
+Please `cd` to the script folder and run `./install.sh` to install program.
+**!!!Important** if you want to backup folder not in your home directory(e.g. system files), please run the install with `sudo`.
+
+### Configuring AWS
+Please specify an account credentials which have full access to s3.
+If you don't have AWS account please create it using this guide:
+[https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
+And create AMI user with full s3 permissions:
+[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console) ** After creating the user don't close the page and copy credentials to program installer **
+
 
 ## Modifying script
 You can free modify scripts for your needs, every block of code is independent and will not affect other.
